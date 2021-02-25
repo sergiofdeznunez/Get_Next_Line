@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snunez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 11:56:05 by snunez            #+#    #+#             */
-/*   Updated: 2021/02/24 13:59:08 by snunez           ###   ########.fr       */
+/*   Created: 2021/02/25 11:48:30 by snunez            #+#    #+#             */
+/*   Updated: 2021/02/25 13:48:07 by snunez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <unistd.h>
-# define BUFF_SIZE	1
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <unistd.h>
+# include <stdlib.h>
 
-int		get_next_line(int fd, char **line)
-{
-	char		buff[BUFF_SIZE + 1];
-	static char	*buffaux;
+int		get_next_line(int fd, char **line);
+size_t	ft_strlen(const char *str);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strchr(const char *str, int c);
+#endif
 
-	buff[BUFF_SIZE + 1] = '\0';
-	while (read(int fd, buff, BUFF_SIZE) > 0)
-	{
-			
-	}
-}

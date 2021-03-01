@@ -6,7 +6,7 @@
 /*   By: snunez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:55:21 by snunez            #+#    #+#             */
-/*   Updated: 2021/02/25 18:25:08 by snunez           ###   ########.fr       */
+/*   Updated: 2021/03/01 12:45:22 by snunez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,25 @@ size_t	ft_strlen(const char *str)
 	while (*(str + i))
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char			*aux;
+	char			*cad;
+	unsigned int	i;
+
+	aux = (char *)s;
+	i = 0;
+	if (!(cad = (char *)malloc((ft_strlen(aux) + 1) * sizeof(char))))
+		return (NULL);
+	while (*(aux + i))
+	{
+		*(cad + i) = *(aux + i);
+		i++;
+	}
+	*(cad + i) = '\0';
+	return (cad);
 }
 
 char	*ft_strjoin(const char *s1, const char *s2)
@@ -60,11 +79,41 @@ char	*ft_strchr(const char *str,int c)
 	i = 0;
 	while (*(aux + i))
 	{
-		if (*(aux + i == (char)c))
+		if (*(aux + i) == (char)c)
 			return (aux + i);
 		i++;
 	}
 	if (c == '\0')
 		return (aux + i);
 	return (NULL);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	unsigned int	i;
+	unsigned int	j;
+	char			*aux;
+	char			*cad;
+
+	aux = (char *)s;
+	i = 0;
+	j = 0;
+	if (!s)
+		return (NULL);
+	if (!(cad = (char *)malloc((len + 1) * sizeof(char))))
+		return (NULL);
+	if (start > ft_strlen(s))
+	{
+		*(cad) = '\0';
+		return (cad);
+	}
+	while (i < len)
+	{
+
+		*(cad + j) = *(aux + start + i);
+		i++;
+		j++;
+	}
+	*(cad + j) = '\0';
+	return (cad);
 }

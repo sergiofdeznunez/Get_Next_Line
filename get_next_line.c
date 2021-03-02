@@ -6,7 +6,7 @@
 /*   By: snunez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:56:05 by snunez            #+#    #+#             */
-/*   Updated: 2021/03/01 16:45:13 by snunez           ###   ########.fr       */
+/*   Updated: 2021/03/02 18:18:39 by snunez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	lft_rght(char *apoyo, char **line, char **buffaux)
 	unsigned int	j;
 	char			*aux;
 	int				cont;
+	char			*sub;
+	char			*tmp;
 
 	aux = (char *)apoyo;
 	i = 0;
@@ -35,9 +37,17 @@ void	lft_rght(char *apoyo, char **line, char **buffaux)
 		i++;
 		j++;
 	}
-	*line = ft_strjoin(*line, (ft_substr(aux, 0, cont)));
-	*buffaux = ft_substr(aux, cont, j);
-	printf("%s\n", *buffaux);
+	sub = ft_substr(aux, 0, cont);
+	if (*line != NULL)
+	{
+		tmp = *line;
+		*line = ft_strjoin(*line, sub);
+		free(tmp);
+	}
+	else
+		*line = ft_strdup(sub);
+	free(sub);
+	*buffaux = ft_substr(aux, cont, j - 1);
 }
 
 int		get_next_line(int fd, char **line)
@@ -45,11 +55,12 @@ int		get_next_line(int fd, char **line)
 	char		buff[BUFF_SIZE + 1];
 	static char	*buffaux;
 	char		*apoyo;
+	char		*tmp;
 	int			result;
 
+	*line= NULL;
 	if (!fd || !line || BUFF_SIZE < 1)
 		return (0);
-	printf("restos :D %s\n", buffaux);
 	if (buffaux != NULL)
 		*line = buffaux;
 	while ((result = (read(fd, buff, BUFF_SIZE))) > 0)
@@ -58,11 +69,20 @@ int		get_next_line(int fd, char **line)
 		apoyo = ft_strdup(buff);
 		if (ft_strchr(apoyo, '\n') == (NULL))
 		{
-			*line = ft_strjoin(*line, apoyo);
+			if (*line == NULL)
+				*line = ft_strdup(apoyo);
+			else
+			{
+				tmp = *line;
+				*line = ft_strjoin(*line, apoyo);
+				free(tmp);
+			}
+			free(apoyo);
 		}
 		else
 		{
 			lft_rght(apoyo, line, &buffaux);
+			free(apoyo);
 			return (1);
 		}
 	}

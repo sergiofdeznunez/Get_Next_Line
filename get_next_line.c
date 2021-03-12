@@ -6,7 +6,7 @@
 /*   By: snunez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:56:05 by snunez            #+#    #+#             */
-/*   Updated: 2021/03/12 09:36:55 by snunez           ###   ########.fr       */
+/*   Updated: 2021/03/12 12:58:49 by snunez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,6 @@ int		get_next_line(int fd, char **line)
 	}
 	while ((result = (read(fd, buff, BUFF_SIZE))) >= 0)
 	{
-		if (result == 0)
-			break ;
 		*(buff + result) = '\0';
 		apoyo = ft_strdup(buff);
 		if (ft_strchr(apoyo, '\n') == (NULL))
@@ -129,6 +127,8 @@ int		get_next_line(int fd, char **line)
 			free(apoyo);
 			return (1);
 		}
+		if (result == 0)
+			break ;
 	}
 	buffaux = NULL;
 	return (result);

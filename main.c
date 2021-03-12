@@ -6,7 +6,7 @@
 /*   By: snunez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 10:13:32 by snunez            #+#    #+#             */
-/*   Updated: 2021/03/02 19:25:48 by snunez           ###   ########.fr       */
+/*   Updated: 2021/03/10 10:41:23 by snunez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@ int		main()
 {
 	int		arch;
 	char	*linea;
+	int		rslt;
 	int		i = 0;
 
 	arch = open("prueba.txt", O_RDONLY);
+	rslt = get_next_line(arch, &linea);
 	while ((i = get_next_line(arch, &linea)) != 0)
 	{
 		printf("%s\n", linea);
-		free(linea);
 	}
-	free(linea);
+	printf("%s\n", linea);
 	system ("leaks a.out");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: snunez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:55:21 by snunez            #+#    #+#             */
-/*   Updated: 2021/03/01 12:45:22 by snunez           ###   ########.fr       */
+/*   Updated: 2021/03/11 12:10:35 by snunez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ft_strdup(const char *s)
 	char			*cad;
 	unsigned int	i;
 
+	if (!s)
+		return (NULL);
 	aux = (char *)s;
 	i = 0;
 	if (!(cad = (char *)malloc((ft_strlen(aux) + 1) * sizeof(char))))
@@ -100,7 +102,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	j = 0;
 	if (!s)
 		return (NULL);
-	if (!(cad = (char *)malloc((len + 1) * sizeof(char))))
+	if (len < ft_strlen(s + start))
+		cad = (char *)malloc((len + 1) * sizeof(char));
+	else 
+		cad = (char *)malloc((ft_strlen(s + start) + 1) * sizeof(char));
+	if (!cad)
 		return (NULL);
 	if (start > ft_strlen(s))
 	{

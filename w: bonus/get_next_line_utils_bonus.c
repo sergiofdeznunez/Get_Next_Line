@@ -6,7 +6,7 @@
 /*   By: snunez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:26:57 by snunez            #+#    #+#             */
-/*   Updated: 2021/03/15 17:14:52 by snunez           ###   ########.fr       */
+/*   Updated: 2021/03/16 17:13:40 by snunez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (new);
 }
 
-char	*ft_strchr(const char *str,int c)
+char	*ft_strchr(const char *str, int c)
 {
 	char	*aux;
 	int		i;
@@ -100,7 +100,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	if (len < ft_strlen(s + start))
 		cad = (char *)malloc((len + 1) * sizeof(char));
-	else 
+	else
 		cad = (char *)malloc((ft_strlen(s + start) + 1) * sizeof(char));
 	if (!cad)
 		return (NULL);
@@ -111,7 +111,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	while (i < len)
 	{
-
 		*(cad + i) = *(s + start + i);
 		i++;
 	}

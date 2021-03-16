@@ -6,26 +6,18 @@
 /*   By: snunez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:26:25 by snunez            #+#    #+#             */
-/*   Updated: 2021/03/15 17:12:20 by snunez           ###   ########.fr       */
+/*   Updated: 2021/03/16 17:06:27 by snunez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 #include <stdio.h>
 
-void	free_and_join(char **pt, char *s1)
-{
-	char	*tmp;
-
-	tmp = *pt;
-	*pt = ft_strjoin(*pt, s1);
-	free(tmp);
-}
-
 void	lft_rght(char *apoyo, char **line, char **buffaux)
 {
 	unsigned int	j;
 	int				cont;
+	char			*tmp;
 	char			*sub;
 
 	j = 0;
@@ -36,7 +28,11 @@ void	lft_rght(char *apoyo, char **line, char **buffaux)
 		j++;
 	sub = ft_substr(apoyo, 0, cont);
 	if (*line != NULL)
-		free_and_join(line, sub);
+	{
+		tmp = *line;
+		*line = ft_strjoin(*line, sub);
+		free(tmp);
+	}
 	else
 		*line = ft_strdup(sub);
 	free(sub);
@@ -69,23 +65,33 @@ void	izq_dcha(char **line, char **buffaux)
 	free(aux);
 }
 
+void	ft_nosl(char *apoyo, char **line)
+{
+	char	*tmp;
+
+	if (*line == NULL)
+		*line = ft_strdup(apoyo);
+	else
+	{
+		tmp = *line;
+		*line = ft_strjoin(*line, apoyo);
+		free(tmp);
+	}
+	free (apoyo);
+}
+
 int	ft_read(int fd, int result, char **line, char **buffaux)
 {
 	char	buff[BUFFER_SIZE + 1];
 	char	*apoyo;
 
-	while ((result = (read(fd, buff, BUFFER_SIZE))) >= 0)
+	result = (read(fd, buff, BUFFER_SIZE));
+	while (result >= 0)
 	{
 		*(buff + result) = '\0';
 		apoyo = ft_strdup(buff);
 		if (ft_strchr(apoyo, '\n') == (NULL))
-		{
-			if (*line == NULL)
-				*line = ft_strdup(apoyo);
-			else
-				free_and_join(line, apoyo);
-			free(apoyo);
-		}
+			ft_nosl(apoyo, line);
 		else
 		{
 			lft_rght(apoyo, line, &buffaux[fd]);
@@ -94,16 +100,17 @@ int	ft_read(int fd, int result, char **line, char **buffaux)
 		}
 		if (result == 0)
 			break ;
+		result = (read(fd, buff, BUFFER_SIZE));
 	}
 	return (result);
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	*buffaux[FOPEN_MAX];
 	int			result;
-	
-	if ((fd < 0 || fd > FOPEN_MAX)|| BUFFER_SIZE < 1)
+
+	if ((fd < 0 || fd > FOPEN_MAX) || BUFFER_SIZE < 1)
 		return (-1);
 	*line = NULL;
 	result = 0;
@@ -115,7 +122,6 @@ int		get_next_line(int fd, char **line)
 			izq_dcha(line, &buffaux[fd]);
 			return (1);
 		}
-		
 	}
 	result = ft_read(fd, result, line, buffaux);
 	if (result == 0)
